@@ -27,6 +27,10 @@ app.use(
     secret: "some secret",
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // Ensure cookie is sent over HTTPS in production
+    },
   })
 );
 
@@ -113,3 +117,5 @@ app.set("views", path.join(__dirname, "views"));
 
 // Set the view engine
 app.set("view engine", "ejs");
+
+module.exports = app;
