@@ -1,5 +1,6 @@
 import * as client from "openid-client";
 
+const path = require("path");
 const express = require("express");
 const session = require("express-session");
 const { Issuer, generators } = require("openid-client");
@@ -13,7 +14,7 @@ async function initializeClient() {
   );
   client = new issuer.Client({
     client_id: "224q3kg3e1ee6e1hg7jipnfu8j",
-    client_secret: "<client secret>",
+    client_secret: process.env.CLIENT_SECRET,
     redirect_uris: ["https://d84l1y8p4kdic.cloudfront.net"],
     response_types: ["code"],
   });
@@ -103,8 +104,12 @@ app.get(getPathFromURL('https://d84l1y8p4kdic.cloudfront.net'), async (req, res)
 // Logout route
 app.get('/logout', (req, res) => {
     req.session.destroy();
-    const logoutUrl = `https://<user pool domain>/logout?client_id=224q3kg3e1ee6e1hg7jipnfu8j&logout_uri=<logout uri>`;
+    const logoutUrl = `https://${process.env.USER_POOL_DOMAIN}/logout?client_id=224q3kg3e1ee6e1hg7jipnfu8j&logout_uri=<logout uri>`;
     res.redirect(logoutUrl);
 });
 
+// Set the views directory
+app.set("views", path.join(__dirname, "views"));
+
+// Set the view engine
 app.set("view engine", "ejs");
