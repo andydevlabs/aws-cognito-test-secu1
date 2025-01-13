@@ -39,10 +39,16 @@ const checkAuth = (req, res, next) => {
 };
 
 app.get("/", checkAuth, (req, res) => {
-  res.render("home", {
-    isAuthenticated: req.isAuthenticated,
-    userInfo: req.session.userInfo,
-  });
+  if (req.isAuthenticated) {
+    // Serve index.html if the user is authenticated
+    res.sendFile(path.join(__dirname, "index.html"));
+  } else {
+    // Render the home view if the user is not authenticated
+    res.render("home", {
+      isAuthenticated: req.isAuthenticated,
+      userInfo: req.session.userInfo,
+    });
+  }
 });
 
 app.get("/login", (req, res) => {
