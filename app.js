@@ -83,27 +83,30 @@ function getPathFromURL(urlString) {
     }
 }
 
-app.get(getPathFromURL('https://d84l1y8p4kdic.cloudfront.net'), async (req, res) => {
+app.get(
+  getPathFromURL("https://avotiana-cognito-3u34ois5v.vercel.app/"),
+  async (req, res) => {
     try {
-        const params = client.callbackParams(req);
-        const tokenSet = await client.callback(
-            'https://d84l1y8p4kdic.cloudfront.net',
-            params,
-            {
-                nonce: req.session.nonce,
-                state: req.session.state
-            }
-        );
+      const params = client.callbackParams(req);
+      const tokenSet = await client.callback(
+        "https://avotiana-cognito-3u34ois5v.vercel.app/",
+        params,
+        {
+          nonce: req.session.nonce,
+          state: req.session.state,
+        }
+      );
 
-        const userInfo = await client.userinfo(tokenSet.access_token);
-        req.session.userInfo = userInfo;
+      const userInfo = await client.userinfo(tokenSet.access_token);
+      req.session.userInfo = userInfo;
 
-        res.redirect('/');
+      res.redirect("/");
     } catch (err) {
-        console.error('Callback error:', err);
-        res.redirect('/');
+      console.error("Callback error:", err);
+      res.redirect("/");
     }
-});
+  }
+);
 
 // Logout route
 app.get('/logout', (req, res) => {
