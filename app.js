@@ -15,7 +15,7 @@ async function initializeClient() {
   client = new issuer.Client({
     client_id: "224q3kg3e1ee6e1hg7jipnfu8j",
     client_secret: process.env.CLIENT_SECRET,
-    redirect_uris: ["https://d84l1y8p4kdic.cloudfront.net"],
+    redirect_uris: ["https://avotiana-cognito-3u34ois5v.vercel.app/"],
     response_types: ["code"],
   });
 }
